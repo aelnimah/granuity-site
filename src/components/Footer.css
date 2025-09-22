@@ -1,0 +1,391 @@
+.footer {
+  width: 100%;
+  background: linear-gradient(135deg, #2C5777 0%, #1e3d52 100%);
+  color: #ffffff;
+  padding: 80px 0 40px 0;
+  margin-top: auto;
+  position: relative;
+  overflow: hidden;
+}
+
+.footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+}
+
+.footer::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.03) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.footer-container {
+  width: 100%;
+  max-width: 1280px; /* max-w-7xl equivalent */
+  margin: 0 auto;
+  padding: 0 1.5rem; /* px-6 equivalent */
+}
+
+.footer-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* 2-column layout for better balance */
+  gap: 3rem; /* gap-12 equivalent */
+  margin-bottom: 1.5rem;
+  align-items: start;
+  justify-items: stretch;
+  position: relative;
+  z-index: 1;
+}
+
+.footer-column {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: flex-start;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.footer-brand {
+  gap: 1rem; /* Tighter spacing between logo and tagline */
+  text-align: left;
+  align-items: flex-start;
+}
+
+/* Right Column: Links + Contact Side by Side */
+.footer-right {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Links and Contact side by side */
+  gap: 2rem; /* gap-8 equivalent */
+  align-items: start;
+}
+
+.footer-links-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.footer-contact-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.footer-logo {
+  margin-bottom: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.footer-logo-img {
+  width: 56px; /* Slightly larger for better presence */
+  height: auto;
+  filter: brightness(0) invert(1);
+  image-rendering: auto; /* Better for filter compatibility */
+  image-rendering: crisp-edges;
+  object-fit: contain;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  transition: all 0.3s ease;
+  /* Anti-aliasing for smoother edges */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.footer-logo-img:hover {
+  transform: scale(1.05);
+  filter: brightness(0) invert(1) drop-shadow(0 2px 4px rgba(255, 255, 255, 0.2));
+}
+
+/* Footer Tagline */
+.footer-tagline {
+  color: rgba(255, 255, 255, 0.7); /* text-gray-200 equivalent */
+  font-size: 14px; /* text-sm equivalent */
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-style: italic;
+  margin: 0;
+  text-align: left;
+  letter-spacing: 0.3px;
+  line-height: 1.4;
+}
+
+.footer-subtitle {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 0.75rem; /* Reduced from 1.5rem to close the gap */
+  color: #ffffff;
+  font-family: 'Inter', sans-serif;
+  line-height: 1.4;
+  text-align: left;
+  position: relative;
+}
+
+.footer-subtitle::after {
+  content: '';
+  position: absolute;
+  bottom: -4px; /* Reduced from -8px */
+  left: 0;
+  width: 30px; /* Slightly smaller underline */
+  height: 2px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.8), transparent);
+}
+
+.footer-description {
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.4;
+  font-size: 14px; /* text-sm equivalent */
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  margin: 0;
+  text-align: left;
+  max-width: 280px;
+  letter-spacing: 0.2px;
+}
+
+/* Footer Navigation */
+.footer-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem; /* space-y-3 equivalent */
+  text-align: left;
+  align-items: flex-start;
+}
+
+.footer-links-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  text-align: left;
+  align-items: flex-start;
+  max-width: 200px;
+}
+
+.footer-link {
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  font-size: 15px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.footer-link:hover {
+  color: #ffffff; /* hover:text-white */
+  transform: translateX(4px);
+}
+
+.footer-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background-color: #ffffff;
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.footer-link:hover::after {
+  width: 100%;
+}
+
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem; /* space-y-5 equivalent */
+  text-align: left;
+  align-items: flex-start;
+}
+
+.contact-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.5;
+  font-size: 14px;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 400;
+  margin: 0;
+  text-align: left;
+  max-width: 280px;
+}
+
+.contact-icon {
+  font-size: 16px;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.contact-details {
+  flex: 1;
+}
+
+.contact-label {
+  color: #ffffff;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  margin-bottom: 0.25rem;
+}
+
+.contact-text {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.contact-details strong {
+  color: #ffffff;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+}
+
+.contact-link {
+  color: #ffffff;
+  text-decoration: none;
+  transition: opacity 0.3s ease;
+}
+
+.contact-link:hover {
+  opacity: 0.8;
+}
+
+.appointment-note {
+  font-size: 12px; /* text-xs equivalent */
+  color: rgba(255, 255, 255, 0.5); /* text-gray-400 equivalent */
+  font-style: italic;
+  display: block;
+  margin-top: 0.25rem;
+}
+
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.1); /* border-white/10 equivalent */
+  margin-top: 1.5rem; /* mt-6 equivalent */
+  padding-top: 1rem; /* pt-4 equivalent */
+  text-align: center;
+}
+
+.footer-legal {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem; /* space-y-3 equivalent */
+  align-items: center;
+}
+
+.footer-disclaimer {
+  color: rgba(255, 255, 255, 0.6); /* text-gray-400 equivalent */
+  font-size: 12px; /* text-xs equivalent */
+  font-family: 'Open Sans', sans-serif;
+  line-height: 1.5;
+  margin: 0;
+  max-width: 1200px; /* Increased width to prevent wrapping */
+  text-align: center;
+  white-space: nowrap; /* Force single line */
+}
+
+.footer-copyright {
+  color: rgba(255, 255, 255, 0.75); /* text-gray-300 equivalent */
+  font-size: 12px; /* text-xs equivalent */
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 400;
+  margin: 0;
+  text-align: center;
+}
+
+/* Mobile responsiveness */
+@media screen and (max-width: 768px) {
+  .footer {
+    padding: 40px 0;
+  }
+  
+  .footer-container {
+    padding: 0 1rem;
+  }
+  
+  .footer-content {
+    grid-template-columns: 1fr; /* Single column on mobile */
+    gap: 2rem;
+    margin-bottom: 2rem;
+    justify-items: stretch;
+  }
+  
+  .footer-right {
+    grid-template-columns: 1fr; /* Stack vertically on mobile */
+    gap: 2rem; /* Reduced spacing on mobile */
+  }
+  
+  .footer-column {
+    text-align: center;
+    max-width: 100%;
+    align-items: center;
+  }
+  
+  .footer-brand {
+    gap: 1rem;
+    text-align: center;
+    align-items: center;
+  }
+  
+  .footer-logo {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 0;
+  }
+  
+  .footer-logo-img {
+    width: 35px;
+    image-rendering: auto;
+    image-rendering: -webkit-optimize-contrast;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+  }
+  
+  .footer-links-list {
+    align-items: center;
+    text-align: center;
+  }
+  
+  .contact-info {
+    align-items: center;
+    text-align: center;
+  }
+  
+  .footer-subtitle {
+    font-size: 16px;
+    margin-bottom: 1rem;
+  }
+  
+  .footer-description {
+    font-size: 16px;
+  }
+  
+  .footer-link {
+    font-size: 14px;
+  }
+  
+  .contact-item {
+    font-size: 16px;
+  }
+}
