@@ -14,11 +14,75 @@ const logos = [
   { src: '/logos/omed.png', alt: 'Ontario Ministry of Economic Development', href: 'https://www.ontario.ca/page/ministry-economic-development-job-creation-trade' },
 ];
 
+const successStories = [
+  {
+    id: 1,
+    company: 'Dana Incorporated',
+    logo: '/logos/dana.png',
+    website: 'https://www.dana.com/',
+    fundingDetails: [
+      {
+        amount: '$80,000,000',
+        label: 'FUNDING APPROVAL',
+        description: 'Grant secured over ten years utilizing the Strategic Innovation Fund. Enabled project development for e-motors, e-invertors, and heat management systems for the Fortune 500 company.'
+      },
+      {
+        amount: '500+',
+        label: 'JOB CREATION',
+        description: 'Bolstered the company\'s workforce in order to meet current and future labor demands.'
+      }
+    ]
+  },
+  {
+    id: 2,
+    company: 'Everblue',
+    logo: '/logos/everblue.png',
+    website: 'https://www.goeverblue.com/',
+    fundingDetails: [
+      {
+        amount: '$1,400,000',
+        label: 'FUNDING APPROVAL',
+        description: 'Grant from North Carolina\'s JDIG (Job Development Investment Grant) which accelerated Everblue\'s future growth within the state.'
+      },
+      {
+        amount: '$700,000',
+        label: 'FUNDING APPROVAL',
+        description: 'Grant from the local municipality and county — incentivized expansion into a new, all-encapsulating office facility.'
+      }
+    ]
+  },
+  {
+    id: 3,
+    company: 'Precision Evolution Global',
+    logo: '/logos/peg.png',
+    website: 'https://www.precision-globe.com/',
+    fundingDetails: [
+      {
+        amount: '$500,000',
+        label: 'FUNDING APPROVAL',
+        description: 'Interest-free loan from FedDev Ontario which increased their biopharmaceutical event capacity and frequency.'
+      },
+      {
+        amount: '$50,000',
+        label: 'FUNDING APPROVAL',
+        description: 'Grant from CanExport which expanded operations across the US, leading to greater overall market capture in the industry.'
+      }
+    ]
+  }
+];
+
 const Home = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [counts, setCounts] = useState({ grants: 0, capital: 0, projects: 0 });
+  const [videoLoaded, setVideoLoaded] = useState(false);
+  const [videoError, setVideoError] = useState(false);
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const statsRef = useRef(null);
   const sliderRef = useRef(null);
+  const videoRef = useRef(null);
+  const carouselRef = useRef(null);
+  const autoPlayRef = useRef(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -27,7 +91,10 @@ const Home = () => {
           setIsVisible(true);
         }
       },
-      { threshold: 0.8 }
+      { 
+        threshold: 0.5,
+        rootMargin: '0px 0px -100px 0px'
+      }
     );
 
     if (statsRef.current) {
@@ -58,9 +125,14 @@ const Home = () => {
       }, stepDuration);
     };
 
-    animateCount(1000, 'grants');
-    animateCount(300, 'capital');
-    animateCount(500, 'projects');
+    // Small delay to ensure intersection observer has fully triggered
+    const timeoutId = setTimeout(() => {
+      animateCount(1000, 'grants');
+      animateCount(300, 'capital');
+      animateCount(500, 'projects');
+    }, 100);
+
+    return () => clearTimeout(timeoutId);
   }, [isVisible]);
 
   // Scroll animation observer
@@ -87,6 +159,95 @@ const Home = () => {
     };
   }, []);
 
+  // Aggressive autoplay for mobile - no play button overlay
+  useEffect(() => {
+    const forceVideoPlay = async () => {
+      if (videoRef.current) {
+        // Set all necessary properties for mobile autoplay
+        videoRef.current.muted = true;
+        videoRef.current.playsInline = true;
+        videoRef.current.controls = false;
+        videoRef.current.setAttribute('playsinline', 'true');
+        videoRef.current.setAttribute('webkit-playsinline', 'true');
+        
+        try {
+          await videoRef.current.play();
+          console.log('Video autoplay successful');
+        } catch (error) {
+          console.log('Autoplay blocked, trying immediate retry:', error);
+          
+          // Try again immediately
+          setTimeout(async () => {
+            try {
+              await videoRef.current.play();
+              console.log('Video autoplay successful on retry');
+            } catch (err) {
+              console.log('Still blocked, will try on interaction:', err);
+              // Last resort - play on any interaction
+              const playOnInteraction = () => {
+                videoRef.current.play().catch(() => {});
+                document.removeEventListener('touchstart', playOnInteraction);
+                document.removeEventListener('click', playOnInteraction);
+                document.removeEventListener('scroll', playOnInteraction);
+              };
+              document.addEventListener('touchstart', playOnInteraction, { once: true });
+              document.addEventListener('click', playOnInteraction, { once: true });
+              document.addEventListener('scroll', playOnInteraction, { once: true });
+            }
+          }, 100);
+        }
+      }
+    };
+
+    // Try to play immediately when component mounts
+    forceVideoPlay();
+    
+    // Also try when video loads
+    if (videoLoaded && !videoError) {
+      forceVideoPlay();
+    }
+  }, [videoLoaded, videoError]);
+
+  // Carousel auto-rotation
+  useEffect(() => {
+    if (isAutoPlaying) {
+      autoPlayRef.current = setInterval(() => {
+        setCurrentSlide(prev => (prev + 1) % successStories.length);
+      }, 5000); // Change slide every 5 seconds
+    }
+
+    return () => {
+      if (autoPlayRef.current) {
+        clearInterval(autoPlayRef.current);
+      }
+    };
+  }, [isAutoPlaying]);
+
+  // Pause auto-play on hover
+  const handleCarouselMouseEnter = () => {
+    setIsAutoPlaying(false);
+  };
+
+  const handleCarouselMouseLeave = () => {
+    setIsAutoPlaying(true);
+  };
+
+  // Manual navigation functions
+  const goToSlide = (index) => {
+    setCurrentSlide(index);
+    setIsAutoPlaying(false);
+    // Resume auto-play after 10 seconds of manual interaction
+    setTimeout(() => setIsAutoPlaying(true), 10000);
+  };
+
+  const goToPreviousSlide = () => {
+    goToSlide(currentSlide === 0 ? successStories.length - 1 : currentSlide - 1);
+  };
+
+  const goToNextSlide = () => {
+    goToSlide(currentSlide === successStories.length - 1 ? 0 : currentSlide + 1);
+  };
+
   // Slider navigation functions
   const scrollSlider = (direction) => {
     if (sliderRef.current) {
@@ -108,16 +269,35 @@ const Home = () => {
       <section className="hero">
         {/* Background Video */}
         <video
+          ref={videoRef}
           autoPlay
           muted
           loop
           playsInline
+          preload="auto"
+          controls={false}
           className="hero-video"
           onError={(e) => {
             console.error('Video failed to load:', e);
+            setVideoError(true);
             // Hide video and show fallback background
             e.target.style.display = 'none';
             e.target.parentElement.classList.add('hero-fallback');
+          }}
+          onLoadedData={async (e) => {
+            setVideoLoaded(true);
+            console.log('Video data loaded');
+            
+            // Immediately try to play when data loads
+            try {
+              e.target.muted = true;
+              e.target.playsInline = true;
+              e.target.controls = false;
+              await e.target.play();
+              console.log('Video started playing on data load');
+            } catch (err) {
+              console.log('Could not play on data load:', err);
+            }
           }}
         >
           <source src="/media/hero.mp4" type="video/mp4" />
@@ -323,142 +503,84 @@ const Home = () => {
             <p className="success-stories-subtitle">Real results from businesses we've helped secure funding</p>
           </div>
           
-          <div className="success-stories-slider">
-            {/* Navigation Arrows - Outside Container */}
+          <div 
+            className="success-stories-carousel"
+            onMouseEnter={handleCarouselMouseEnter}
+            onMouseLeave={handleCarouselMouseLeave}
+          >
+            {/* Navigation Arrows */}
             <button 
-              className="slider-arrow slider-arrow-left" 
+              className="carousel-arrow carousel-arrow-left" 
               aria-label="Previous slide"
-              onClick={() => scrollSlider('left')}
+              onClick={goToPreviousSlide}
             >
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </button>
             
-            <div className="slider-container">
-              <div className="slider-track" ref={sliderRef}>
-                {/* Client 1 */}
-                <div className="client-slide">
-                  <div className="client-header">
-                    <div className="client-info">
-                      <img 
-                        src="/logos/mock-logo1.png" 
-                        alt="TechCorp Solutions" 
-                        className="client-logo"
-                        onError={(e) => {
-                          e.target.style.display = 'none';
-                          e.target.nextSibling.style.display = 'flex';
-                        }}
-                      />
-                      <div className="logo-placeholder" style={{display: 'none'}}>TC</div>
-                      <div className="client-name">TechCorp Solutions</div>
+            <div className="carousel-container" ref={carouselRef}>
+              <div className="carousel-track" style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
+                {successStories.map((story) => (
+                  <div key={story.id} className="success-story-slide">
+                    <div className="story-header">
+                      <a 
+                        href={story.website} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="company-logo-link"
+                      >
+                        <img 
+                          src={story.logo} 
+                          alt={`${story.company} logo`} 
+                          className="company-logo"
+                          onError={(e) => {
+                            e.target.style.display = 'none';
+                            e.target.nextSibling.style.display = 'flex';
+                          }}
+                        />
+                        <div className="logo-placeholder" style={{display: 'none'}}>
+                          {story.company.split(' ').map(word => word[0]).join('')}
+                        </div>
+                      </a>
+                      <h3 className="company-name">{story.company}</h3>
                     </div>
-                    <button className="read-story-btn">Read the TechCorp Success Story</button>
-                  </div>
-                  <div className="funding-cards">
-                    <div className="funding-card">
-                      <div className="funding-amount">$5,000,000</div>
-                      <div className="funding-label">FUNDING APPROVAL</div>
-                      <div className="funding-description">Federal R&D grant for AI innovation project</div>
-                    </div>
-                    <div className="funding-card">
-                      <div className="funding-amount">$2,500,000</div>
-                      <div className="funding-label">FUNDING APPROVAL</div>
-                      <div className="funding-description">State economic development incentive</div>
-                    </div>
-                    <div className="funding-card">
-                      <div className="funding-amount">$1,200,000</div>
-                      <div className="funding-label">FUNDING APPROVAL</div>
-                      <div className="funding-description">Municipal workforce development program</div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Client 2 */}
-                <div className="client-slide">
-                  <div className="client-header">
-                    <div className="client-info">
-                      <img 
-                        src="/logos/mock-logo2.png" 
-                        alt="GreenTech Industries" 
-                        className="client-logo"
-                        onError={(e) => {
-                          e.target.style.display = 'none';
-                          e.target.nextSibling.style.display = 'flex';
-                        }}
-                      />
-                      <div className="logo-placeholder" style={{display: 'none'}}>GT</div>
-                      <div className="client-name">GreenTech Industries</div>
-                    </div>
-                    <button className="read-story-btn">Read the GreenTech Success Story</button>
-                  </div>
-                  <div className="funding-cards">
-                    <div className="funding-card">
-                      <div className="funding-amount">$8,750,000</div>
-                      <div className="funding-label">FUNDING APPROVAL</div>
-                      <div className="funding-description">DOE clean energy manufacturing grant</div>
-                    </div>
-                    <div className="funding-card">
-                      <div className="funding-amount">$3,200,000</div>
-                      <div className="funding-label">FUNDING APPROVAL</div>
-                      <div className="funding-description">Provincial green technology initiative</div>
-                    </div>
-                    <div className="funding-card">
-                      <div className="funding-amount">$1,500,000</div>
-                      <div className="funding-label">FUNDING APPROVAL</div>
-                      <div className="funding-description">Regional sustainability program</div>
+                    
+                    <div className="funding-details">
+                      {story.fundingDetails.map((detail, index) => (
+                        <div key={index} className="funding-detail-card">
+                          <div className="funding-amount">{detail.amount}</div>
+                          <div className="funding-label">{detail.label}</div>
+                          <div className="funding-description">{detail.description}</div>
+                        </div>
+                      ))}
                     </div>
                   </div>
-                </div>
-
-                {/* Client 3 */}
-                <div className="client-slide">
-                  <div className="client-header">
-                    <div className="client-info">
-                      <img 
-                        src="/logos/mock-logo3.png" 
-                        alt="MediCorp Health" 
-                        className="client-logo"
-                        onError={(e) => {
-                          e.target.style.display = 'none';
-                          e.target.nextSibling.style.display = 'flex';
-                        }}
-                      />
-                      <div className="logo-placeholder" style={{display: 'none'}}>MC</div>
-                      <div className="client-name">MediCorp Health</div>
-                    </div>
-                    <button className="read-story-btn">Read the MediCorp Success Story</button>
-                  </div>
-                  <div className="funding-cards">
-                    <div className="funding-card">
-                      <div className="funding-amount">$12,000,000</div>
-                      <div className="funding-label">FUNDING APPROVAL</div>
-                      <div className="funding-description">NIH medical research and development grant</div>
-                    </div>
-                    <div className="funding-card">
-                      <div className="funding-amount">$4,500,000</div>
-                      <div className="funding-label">FUNDING APPROVAL</div>
-                      <div className="funding-description">Healthcare innovation partnership program</div>
-                    </div>
-                    <div className="funding-card">
-                      <div className="funding-amount">$1,800,000</div>
-                      <div className="funding-label">FUNDING APPROVAL</div>
-                      <div className="funding-description">Regional health technology accelerator</div>
-                    </div>
-                  </div>
-                </div>
+                ))}
               </div>
             </div>
             
             <button 
-              className="slider-arrow slider-arrow-right" 
+              className="carousel-arrow carousel-arrow-right" 
               aria-label="Next slide"
-              onClick={() => scrollSlider('right')}
+              onClick={goToNextSlide}
             >
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M9 18L15 12L9 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </button>
+          </div>
+          
+          {/* Slide Indicators */}
+          <div className="carousel-indicators">
+            {successStories.map((_, index) => (
+              <button
+                key={index}
+                className={`indicator ${index === currentSlide ? 'active' : ''}`}
+                onClick={() => goToSlide(index)}
+                aria-label={`Go to slide ${index + 1}`}
+              />
+            ))}
           </div>
           
           <div className="success-stories-footer">
