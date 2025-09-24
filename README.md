@@ -602,12 +602,27 @@ This project demonstrates:
 - **🏢 Address**: First Canadian Place, 100 King Street West Suite 5600, Toronto, ON, M5X 1C9
 - **💼 LinkedIn**: [Grantuity Group](https://www.linkedin.com/company/grantuity/)
 
+### **Form Setup**
+
+The website uses **Netlify Forms** for reliable form handling with the following configuration:
+
+#### **Form Requirements:**
+- **Unique Names**: Each form must have a unique `name` attribute
+- **Form Name Input**: Hidden `form-name` input is required for Netlify to recognize submissions
+- **Bot Protection**: Hidden `bot-field` input provides spam protection via honeypot
+- **Fallback Forms**: Hidden forms in `index.html` ensure Netlify registers forms at build time
+
+#### **Form Configuration:**
+- **Home Page Form**: `name="home-intake"` (simplified intake form)
+- **Contact Page Form**: `name="page-contact"` (comprehensive contact form)
+- **Email Notifications**: Configure in Netlify Dashboard → Site Settings → Forms → Notifications
+
 ### **Form Submissions**
 
 The website uses **Netlify Forms** to handle form submissions from both contact forms with **inline success messages**:
 
 #### **Forms Configured:**
-- **Home Page Form** (`home-contact`): Inline contact form in the "Work With Us" section
+- **Home Page Form** (`home-intake`): Inline contact form in the "Work With Us" section
 - **Contact Page Form** (`page-contact`): Full contact form on the Contact Us page
 
 #### **Form Features:**
@@ -634,8 +649,9 @@ To configure email notifications in Netlify:
 6. Form data stored in Netlify dashboard for backup
 
 #### **Form Configuration Files:**
-- `src/pages/Home.jsx`: Home page form with `name="home-contact"`
+- `src/pages/Home.jsx`: Home page form with `name="home-intake"`
 - `src/pages/Contact.jsx`: Contact page form with `name="page-contact"`
+- `index.html`: Hidden fallback forms for Netlify registration
 - `src/utils/formSubmission.js`: Shared form submission utility
 - `src/utils/formSubmission.css`: Success/error message styles
 - `public/_redirects`: Netlify configuration file for form handling

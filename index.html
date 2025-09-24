@@ -12,5 +12,27 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+    
+    <!-- Hidden fallback forms for Netlify -->
+    <form name="home-intake" netlify netlify-honeypot="bot-field" hidden>
+      <input type="text" name="name" />
+      <input type="email" name="email" />
+      <input type="text" name="company" />
+      <textarea name="message"></textarea>
+    </form>
+
+    <form name="page-contact" netlify netlify-honeypot="bot-field" hidden>
+      <input type="text" name="firstName" />
+      <input type="text" name="lastName" />
+      <input type="email" name="email" />
+      <input type="tel" name="phone" />
+      <input type="text" name="companyName" />
+      <input type="url" name="website" />
+      <input type="text" name="country" />
+      <input type="text" name="stateProvince" />
+      <input type="text" name="industry" />
+      <input type="text" name="revenue" />
+      <textarea name="message"></textarea>
+    </form>
   </body>
 </html>

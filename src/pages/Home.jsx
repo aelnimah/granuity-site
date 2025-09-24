@@ -648,19 +648,20 @@ const Home = () => {
               
               {/* Netlify Forms Configuration - Submissions sent to elnimaha@gmail.com */}
               <form 
-                name="home-contact" 
+                name="home-intake" 
                 method="POST" 
                 data-netlify="true" 
                 className="contact-form"
                 onSubmit={(e) => {
-                  submitToNetlify(e, 'home-contact', 
+                  submitToNetlify(e, 'home-intake', 
                     () => replaceFormWithMessage(e.target, createSuccessMessage()),
                     () => replaceFormWithMessage(e.target, createErrorMessage())
                   );
                 }}
               >
-                {/* Hidden input for Netlify form detection */}
-                <input type="hidden" name="form-name" value="home-contact" />
+                {/* Hidden inputs for Netlify form detection and spam protection */}
+                <input type="hidden" name="form-name" value="home-intake" />
+                <input type="hidden" name="bot-field" />
                 
                 <div className="form-group">
                   <label htmlFor="name" className="form-label">Name</label>

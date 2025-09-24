@@ -195,8 +195,9 @@ const Contact = () => {
                 className="contact-form" 
                 onSubmit={handleSubmit}
               >
-                {/* Hidden input for Netlify form detection */}
+                {/* Hidden inputs for Netlify form detection and spam protection */}
                 <input type="hidden" name="form-name" value="page-contact" />
+                <input type="hidden" name="bot-field" />
                     
                     <h2 className="contact-form-title">Send us a message</h2>
                   
