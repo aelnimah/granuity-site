@@ -204,8 +204,19 @@ const Contact = () => {
               transition={{ duration: 0.8, ease: "easeOut", delay: 0.3 }}
             >
               {!showThankYou ? (
-                <form className="contact-form" onSubmit={handleSubmit}>
-                  <h2 className="contact-form-title">Send us a message</h2>
+                <>
+                  {/* Netlify Forms Configuration - Submissions sent to elnimaha@gmail.com */}
+                  <form 
+                    name="page-contact" 
+                    method="POST" 
+                    data-netlify="true" 
+                    className="contact-form" 
+                    onSubmit={handleSubmit}
+                  >
+                    {/* Hidden input for Netlify form detection */}
+                    <input type="hidden" name="form-name" value="page-contact" />
+                    
+                    <h2 className="contact-form-title">Send us a message</h2>
                   
                   <motion.div 
                     className="form-row"
@@ -399,7 +410,8 @@ const Contact = () => {
                   >
                     Send Message
                   </motion.button>
-                </form>
+                  </form>
+                </>
               ) : (
                 <motion.div 
                   className="thank-you-message"

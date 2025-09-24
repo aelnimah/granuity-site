@@ -602,6 +602,36 @@ This project demonstrates:
 - **🏢 Address**: First Canadian Place, 100 King Street West Suite 5600, Toronto, ON, M5X 1C9
 - **💼 LinkedIn**: [Grantuity Group](https://www.linkedin.com/company/grantuity/)
 
+### **Form Submissions**
+
+The website uses **Netlify Forms** to handle form submissions from both contact forms:
+
+#### **Forms Configured:**
+- **Home Page Form** (`home-contact`): Inline contact form in the "Work With Us" section
+- **Contact Page Form** (`page-contact`): Full contact form on the Contact Us page
+
+#### **Email Routing:**
+- **Target Email**: `elnimaha@gmail.com`
+- **Service**: Netlify Forms automatically forwards all submissions to the configured email
+- **Configuration**: Forms are configured with `data-netlify="true"` attribute and unique `name` attributes
+
+#### **How It Works:**
+1. Forms are submitted to Netlify's form handling service
+2. Netlify processes the submissions and forwards them to `elnimaha@gmail.com`
+3. Email notifications are sent automatically for each form submission
+4. Form data is also stored in Netlify's dashboard for backup
+
+#### **Changing the Target Email:**
+To change where form submissions are sent:
+1. **Netlify Dashboard**: Go to Site Settings → Forms → Form notifications
+2. **Update Email**: Change the notification email from `elnimaha@gmail.com` to the new address
+3. **Alternative**: Use Netlify's webhook functionality to send to custom endpoints
+
+#### **Form Configuration Files:**
+- `src/pages/Home.jsx`: Home page form with `name="home-contact"`
+- `src/pages/Contact.jsx`: Contact page form with `name="page-contact"`
+- `public/_redirects`: Netlify configuration file for form handling
+
 ### **Development Support**
 For technical questions about this codebase:
 1. Check existing documentation in this README

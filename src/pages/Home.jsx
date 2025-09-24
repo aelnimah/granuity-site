@@ -644,7 +644,16 @@ const Home = () => {
               <h3 className="contact-form-title">Ready to Get Started?</h3>
               <p className="contact-form-subtitle">Fill out the form below and we'll get back to you within 24 hours.</p>
               
-              <form className="contact-form">
+              {/* Netlify Forms Configuration - Submissions sent to elnimaha@gmail.com */}
+              <form 
+                name="home-contact" 
+                method="POST" 
+                data-netlify="true" 
+                className="contact-form"
+              >
+                {/* Hidden input for Netlify form detection */}
+                <input type="hidden" name="form-name" value="home-contact" />
+                
                 <div className="form-group">
                   <label htmlFor="name" className="form-label">Name</label>
                   <input 

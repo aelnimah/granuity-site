@@ -1,0 +1,10 @@
+# Netlify Forms Configuration
+# This file ensures proper handling of form submissions
+
+# Redirect all form submissions to the appropriate handlers
+/*    /index.html   200
+
+# Netlify Forms - Forward submissions to elnimaha@gmail.com
+# Forms configured:
+# - home-contact (Home page inline form)
+# - page-contact (Contact Us page form)
