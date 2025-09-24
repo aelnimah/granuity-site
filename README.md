@@ -1,6 +1,7 @@
 # 🚀 Grantuity Marketing Site
 
 > **A premium, animation-rich marketing website showcasing modern React development and sophisticated user experience design.**
+// Dummy commit for Netlify redeploy
 
 [![Built with React](https://img.shields.io/badge/React-19.1.1-61DAFB?logo=react&logoColor=white)](https://reactjs.org/)
 [![Powered by Vite](https://img.shields.io/badge/Vite-7.1.2-646CFF?logo=vite&logoColor=white)](https://vitejs.dev/)
