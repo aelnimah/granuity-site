@@ -143,29 +143,34 @@
 }
 
 .hero-button-primary {
-  background-color: #2C5777;
+  background-color: rgba(44, 87, 119, 0.8);
   color: white;
+  border-color: #2C5777;
   box-shadow: 0 4px 14px rgba(44, 87, 119, 0.25);
 }
 
 .hero-button-primary:hover {
-  background-color: #1e3d52;
+  background-color: #2C5777;
+  border-color: #2C5777;
   transform: translateY(-2px);
   box-shadow: 0 8px 25px rgba(44, 87, 119, 0.35);
   color: white;
 }
 
 .hero-button-secondary {
-  background-color: transparent;
-  color: #2C5777;
-  border-color: #2C5777;
+  background-color: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .hero-button-secondary:hover {
-  background-color: #2C5777;
-  color: white;
+  background-color: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.5);
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(44, 87, 119, 0.25);
+  box-shadow: 0 8px 25px rgba(255, 255, 255, 0.15);
 }
 
 .hero-right {

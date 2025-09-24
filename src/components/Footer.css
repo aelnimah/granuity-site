@@ -114,13 +114,18 @@
 .footer-tagline {
   color: rgba(255, 255, 255, 0.7); /* text-gray-200 equivalent */
   font-size: 14px; /* text-sm equivalent */
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter', 'Inter Italic', 'Inter-Italic', 'Inter Italic Variable', sans-serif;
   font-weight: 400;
   font-style: italic;
+  font-variation-settings: 'slnt' -10; /* CSS font variation for italic */
   margin: 0;
   text-align: left;
   letter-spacing: 0.3px;
   line-height: 1.4;
+  /* Ensure italic rendering across all browsers */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 .footer-subtitle {
@@ -227,13 +232,24 @@
   font-weight: 400;
   margin: 0;
   text-align: left;
-  max-width: 280px;
+  max-width: 100%;
+  width: 100%;
 }
 
 .contact-icon {
   font-size: 16px;
   margin-top: 2px;
   flex-shrink: 0;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.9;
+  transition: opacity 0.3s ease;
+}
+
+.contact-item:hover .contact-icon {
+  opacity: 1;
 }
 
 .contact-details {
@@ -298,9 +314,11 @@
   font-family: 'Open Sans', sans-serif;
   line-height: 1.5;
   margin: 0;
-  max-width: 1200px; /* Increased width to prevent wrapping */
+  max-width: 100%;
   text-align: center;
-  white-space: nowrap; /* Force single line */
+  padding: 0 1rem; /* Add padding to prevent edge cutoff */
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .footer-copyright {
@@ -310,6 +328,26 @@
   font-weight: 400;
   margin: 0;
   text-align: center;
+}
+
+/* Tablet/Split-screen responsiveness */
+@media screen and (max-width: 1024px) {
+  .footer-content {
+    gap: 2rem;
+  }
+  
+  .footer-right {
+    gap: 1.5rem;
+  }
+  
+  .contact-item {
+    max-width: 100%;
+  }
+  
+  .footer-disclaimer {
+    font-size: 11px;
+    padding: 0 0.5rem;
+  }
 }
 
 /* Mobile responsiveness */
@@ -387,5 +425,17 @@
   
   .contact-item {
     font-size: 16px;
+    max-width: 100%;
+    width: 100%;
+  }
+  
+  .footer-disclaimer {
+    font-size: 10px;
+    padding: 0 0.25rem;
+    line-height: 1.4;
+  }
+  
+  .footer-copyright {
+    font-size: 11px;
   }
 }

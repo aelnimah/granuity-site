@@ -313,7 +313,7 @@ const Home = () => {
           <div className="hero-content">
             <div className="hero-left">
               <h1 className="hero-headline">
-                Unlock Government<br />Funding With Confidence
+                Ingenuity,<br />Powered by Grantuity
               </h1>
               <p className="hero-subheadline">
                 We help businesses navigate complex funding programs at every level of government — from federal to local — to secure the capital they need to grow.
@@ -336,7 +336,7 @@ const Home = () => {
           {/* Section Title */}
           <div className="impact-section-header fade-up">
             <h2 className="impact-section-title">Government Funding Programs</h2>
-            <p className="impact-section-subtitle">We have supported clients in preparing and submitting applications for a wide range of government funding opportunities available through various government programs and initiatives.</p>
+            <p className="impact-section-subtitle">We have supported businesses in preparing and submitting applications to a wide range of government agencies and entities.</p>
           </div>
 
           {/* Logo Strip */}
@@ -372,11 +372,6 @@ const Home = () => {
               ))}
             </div>
           </div>
-          
-          {/* Legal Disclaimer */}
-          <p className="logo-disclaimer">
-            Logos are for reference only. We are not affiliated with, endorsed by, or partnered with these agencies.
-          </p>
 
           {/* Our Impact Section */}
           <div className="impact-content">

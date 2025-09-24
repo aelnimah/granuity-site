@@ -61,12 +61,22 @@
   padding: 0;
   display: block;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  filter: brightness(0) invert(1);
   object-fit: contain;
 }
 
+/* Only apply filter to white logo (logo.png) - logo3.png should display as-is */
+.navbar:not(.scrolled) .navbar-logo .logo {
+  filter: brightness(0) invert(1);
+}
+
+/* No filter for scrolled state - logo3.png displays in its original form */
 .navbar.scrolled .navbar-logo .logo {
-  filter: brightness(0) saturate(100%) invert(18%) sepia(41%) saturate(1015%) hue-rotate(180deg) brightness(95%) contrast(91%);
+  filter: none;
+}
+
+/* Hover effect */
+.logo-link:hover .logo {
+  transform: translateY(-1px);
 }
 
 /* Desktop Navigation - Balanced Spacing */

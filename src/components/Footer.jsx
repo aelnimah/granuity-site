@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { MapPin, Mail, Phone } from 'lucide-react';
 import './Footer.css';
 
 const Footer = () => {
@@ -38,8 +39,8 @@ const Footer = () => {
                 <Link to="/" className="footer-link" onClick={handleHomeClick}>Home</Link>
                 <Link to="/services" className="footer-link" onClick={handleNavClick}>Services</Link>
                 <Link to="/blog" className="footer-link" onClick={handleNavClick}>Blog</Link>
-                <Link to="/portal" className="footer-link" onClick={handleNavClick}>Portal</Link>
                 <Link to="/contact" className="footer-link" onClick={handleNavClick}>Contact Us</Link>
+                <Link to="/portal" className="footer-link" onClick={handleNavClick}>Portal</Link>
               </nav>
             </div>
             
@@ -50,7 +51,9 @@ const Footer = () => {
                 
                 {/* Address */}
                 <div className="contact-item">
-                  <div className="contact-icon">📍</div>
+                  <div className="contact-icon">
+                    <MapPin size={16} />
+                  </div>
                   <div className="contact-details">
                     <div className="contact-label">Address</div>
                     <div className="contact-text">
@@ -64,7 +67,9 @@ const Footer = () => {
                 
                 {/* Email */}
                 <div className="contact-item">
-                  <div className="contact-icon">✉️</div>
+                  <div className="contact-icon">
+                    <Mail size={16} />
+                  </div>
                   <div className="contact-details">
                     <div className="contact-label">Email</div>
                     <a href="mailto:contact@grantuity.org" className="contact-link">
@@ -75,7 +80,9 @@ const Footer = () => {
                 
                 {/* Phone */}
                 <div className="contact-item">
-                  <div className="contact-icon">☎️</div>
+                  <div className="contact-icon">
+                    <Phone size={16} />
+                  </div>
                   <div className="contact-details">
                     <div className="contact-label">Phone</div>
                     <a href="tel:+18666440469" className="contact-link">
@@ -96,7 +103,7 @@ const Footer = () => {
               We are an independent consulting firm that provides advisory services to businesses and are not affiliated, partnered, or endorsed in any way by any government entities or agencies.
             </p>
             <p className="footer-copyright">
-              © 2024 Grantuity Group. All rights reserved.
+              © 2025 Grantuity Group. All rights reserved.
             </p>
           </div>
         </div>

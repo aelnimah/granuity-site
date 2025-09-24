@@ -43,7 +43,11 @@ const Navbar = () => {
         {/* Logo - Flush Left */}
         <div className="navbar-logo">
           <Link to="/" className="logo-link" onClick={handleHomeClick}>
-            <img src="/logo.png" alt="Grantuity Group" className="logo" />
+            <img 
+              src={isScrolled || isAlwaysSolidPage ? "/logo3.png" : "/logo.png"} 
+              alt="Grantuity Group" 
+              className="logo"
+            />
           </Link>
         </div>
 
