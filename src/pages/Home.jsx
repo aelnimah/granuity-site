@@ -36,24 +36,6 @@ const successStories = [
     ]
   },
   {
-    id: 2,
-    company: 'Everblue',
-    logo: '/logos/everblue.png',
-    website: 'https://www.goeverblue.com/',
-    fundingDetails: [
-      {
-        amount: '$1,400,000',
-        label: 'FUNDING APPROVAL',
-        description: 'Grant from North Carolina\'s JDIG (Job Development Investment Grant) which accelerated Everblue\'s future growth within the state.'
-      },
-      {
-        amount: '$700,000',
-        label: 'FUNDING APPROVAL',
-        description: 'Grant from the local municipality and county — incentivized expansion into a new, all-encapsulating office facility.'
-      }
-    ]
-  },
-  {
     id: 3,
     company: 'Precision Evolution Global',
     logo: '/logos/peg.png',
@@ -322,7 +304,7 @@ const Home = () => {
                 <a href="/services" className="hero-button hero-button-primary">
                   Explore Our Services
                 </a>
-                <a href="/success-stories" className="hero-button hero-button-secondary">
+                <a href="/blog" className="hero-button hero-button-secondary">
                   See Our Success Stories
                 </a>
               </div>
