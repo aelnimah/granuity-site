@@ -604,33 +604,52 @@ This project demonstrates:
 
 ### **Form Submissions**
 
-The website uses **Netlify Forms** to handle form submissions from both contact forms:
+The website uses **Netlify Forms** to handle form submissions from both contact forms with **inline success messages**:
 
 #### **Forms Configured:**
 - **Home Page Form** (`home-contact`): Inline contact form in the "Work With Us" section
 - **Contact Page Form** (`page-contact`): Full contact form on the Contact Us page
 
-#### **Email Routing:**
-- **Target Email**: `elnimaha@gmail.com`
-- **Service**: Netlify Forms automatically forwards all submissions to the configured email
-- **Configuration**: Forms are configured with `data-netlify="true"` attribute and unique `name` attributes
+#### **Form Features:**
+- **Inline Success Messages**: Forms show success/error messages without page redirects
+- **Professional Styling**: Success messages inherit site typography and spacing
+- **JavaScript Submission**: Uses `fetch()` API for seamless form handling
+- **Error Handling**: Graceful error messages if submission fails
+
+#### **Email Routing Setup:**
+To configure email notifications in Netlify:
+
+1. **Go to Netlify Dashboard** → Site Settings → Forms → Notifications
+2. **Add Form Submission Notification**:
+   - Set recipient to: `elnimaha@gmail.com`
+   - Configure notification preferences
+3. **Alternative**: Use Netlify's webhook functionality for custom endpoints
 
 #### **How It Works:**
-1. Forms are submitted to Netlify's form handling service
-2. Netlify processes the submissions and forwards them to `elnimaha@gmail.com`
-3. Email notifications are sent automatically for each form submission
-4. Form data is also stored in Netlify's dashboard for backup
-
-#### **Changing the Target Email:**
-To change where form submissions are sent:
-1. **Netlify Dashboard**: Go to Site Settings → Forms → Form notifications
-2. **Update Email**: Change the notification email from `elnimaha@gmail.com` to the new address
-3. **Alternative**: Use Netlify's webhook functionality to send to custom endpoints
+1. User submits form → JavaScript intercepts submission
+2. Form data sent to Netlify via `fetch()` API
+3. On success: Form replaced with styled success message
+4. On error: Form replaced with styled error message
+5. Netlify forwards submission to configured email
+6. Form data stored in Netlify dashboard for backup
 
 #### **Form Configuration Files:**
 - `src/pages/Home.jsx`: Home page form with `name="home-contact"`
 - `src/pages/Contact.jsx`: Contact page form with `name="page-contact"`
+- `src/utils/formSubmission.js`: Shared form submission utility
+- `src/utils/formSubmission.css`: Success/error message styles
 - `public/_redirects`: Netlify configuration file for form handling
+
+#### **Local Testing:**
+For local development and testing:
+```bash
+# Install Netlify CLI
+npm install -g netlify-cli
+
+# Start local development with Netlify Forms
+netlify dev
+```
+This enables form submission testing locally before deployment.
 
 ### **Development Support**
 For technical questions about this codebase:

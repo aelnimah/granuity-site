@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './Home.css';
+import { submitToNetlify, createSuccessMessage, createErrorMessage, replaceFormWithMessage } from '../utils/formSubmission';
+import '../utils/formSubmission.css';
 
 const logos = [
   { src: '/logos/doe.png', alt: 'U.S. Department of Energy', href: 'https://www.energy.gov/' },
@@ -650,6 +652,12 @@ const Home = () => {
                 method="POST" 
                 data-netlify="true" 
                 className="contact-form"
+                onSubmit={(e) => {
+                  submitToNetlify(e, 'home-contact', 
+                    () => replaceFormWithMessage(e.target, createSuccessMessage()),
+                    () => replaceFormWithMessage(e.target, createErrorMessage())
+                  );
+                }}
               >
                 {/* Hidden input for Netlify form detection */}
                 <input type="hidden" name="form-name" value="home-contact" />

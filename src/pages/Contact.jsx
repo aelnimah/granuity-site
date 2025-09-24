@@ -2,6 +2,8 @@ import React, { useState, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { Mail, Phone, MapPin, Linkedin } from 'lucide-react';
 import './Contact.css';
+import { submitToNetlify, createSuccessMessage, createErrorMessage, replaceFormWithMessage } from '../utils/formSubmission';
+import '../utils/formSubmission.css';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -17,7 +19,6 @@ const Contact = () => {
     revenue: '',
     message: ''
   });
-  const [showThankYou, setShowThankYou] = useState(false);
 
   const heroRef = useRef(null);
   const formRef = useRef(null);
@@ -64,27 +65,10 @@ const Contact = () => {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('Form Data:', formData);
-    setShowThankYou(true);
-    
-    // Reset form after 5 seconds
-    setTimeout(() => {
-      setShowThankYou(false);
-      setFormData({
-        firstName: '',
-        lastName: '',
-        email: '',
-        phone: '',
-        companyName: '',
-        website: '',
-        country: '',
-        stateProvince: '',
-        industry: '',
-        revenue: '',
-        message: ''
-      });
-    }, 5000);
+    submitToNetlify(e, 'page-contact', 
+      () => replaceFormWithMessage(e.target, createSuccessMessage()),
+      () => replaceFormWithMessage(e.target, createErrorMessage())
+    );
   };
 
   // Animation variants
@@ -203,18 +187,16 @@ const Contact = () => {
               animate={isFormInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 30 }}
               transition={{ duration: 0.8, ease: "easeOut", delay: 0.3 }}
             >
-              {!showThankYou ? (
-                <>
-                  {/* Netlify Forms Configuration - Submissions sent to elnimaha@gmail.com */}
-                  <form 
-                    name="page-contact" 
-                    method="POST" 
-                    data-netlify="true" 
-                    className="contact-form" 
-                    onSubmit={handleSubmit}
-                  >
-                    {/* Hidden input for Netlify form detection */}
-                    <input type="hidden" name="form-name" value="page-contact" />
+              {/* Netlify Forms Configuration - Submissions sent to elnimaha@gmail.com */}
+              <form 
+                name="page-contact" 
+                method="POST" 
+                data-netlify="true" 
+                className="contact-form" 
+                onSubmit={handleSubmit}
+              >
+                {/* Hidden input for Netlify form detection */}
+                <input type="hidden" name="form-name" value="page-contact" />
                     
                     <h2 className="contact-form-title">Send us a message</h2>
                   
@@ -410,27 +392,7 @@ const Contact = () => {
                   >
                     Send Message
                   </motion.button>
-                  </form>
-                </>
-              ) : (
-                <motion.div 
-                  className="thank-you-message"
-                  initial={{ opacity: 0, scale: 0.8, y: 20 }}
-                  animate={{ opacity: 1, scale: 1, y: 0 }}
-                  transition={{ duration: 0.6, ease: "easeOut" }}
-                >
-                  <motion.div 
-                    className="thank-you-icon"
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ duration: 0.4, delay: 0.2, type: "spring", stiffness: 200 }}
-                  >
-                    ✓
-                  </motion.div>
-                  <h2>Thank you for reaching out!</h2>
-                  <p>We've received your message and will get back to you within 24 hours.</p>
-                </motion.div>
-              )}
+              </form>
             </motion.div>
           </div>
         </div>
