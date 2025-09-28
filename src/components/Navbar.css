@@ -39,7 +39,6 @@
   padding: 0;
   display: flex;
   align-items: center;
-  margin-left: -0.25rem; /* Pull logo closer to compensate for any internal image whitespace */
 }
 
 .logo-link {
@@ -64,19 +63,62 @@
   object-fit: contain;
 }
 
-/* Only apply filter to white logo (logo.png) - logo3.png should display as-is */
-.navbar:not(.scrolled) .navbar-logo .logo {
-  filter: brightness(0) invert(1);
+/* Ensure logo is always full-color and 100% opacity in all states */
+.navbar .navbar-logo .logo,
+.navbar .navbar-logo img,
+.navbar .logo-link .logo,
+.navbar .logo-link img,
+.navbar .logo,
+.navbar img.logo {
+  filter: none !important;
+  -webkit-filter: none !important;
+  opacity: 1 !important;
+  mix-blend-mode: normal !important;
 }
 
-/* No filter for scrolled state - logo3.png displays in its original form */
-.navbar.scrolled .navbar-logo .logo {
-  filter: none;
+/* Ensure logo stays full-color in scrolled state */
+.navbar.scrolled .navbar-logo .logo,
+.navbar.scrolled .navbar-logo img,
+.navbar.scrolled .logo-link .logo,
+.navbar.scrolled .logo-link img,
+.navbar.scrolled .logo,
+.navbar.scrolled img.logo {
+  filter: none !important;
+  -webkit-filter: none !important;
+  opacity: 1 !important;
+  mix-blend-mode: normal !important;
 }
 
-/* Hover effect */
+/* Ensure logo stays full-color in hover state */
+.navbar .logo-link:hover .logo,
+.navbar .logo-link:hover img,
+.navbar .navbar-logo:hover .logo,
+.navbar .navbar-logo:hover img {
+  filter: none !important;
+  -webkit-filter: none !important;
+  opacity: 1 !important;
+  mix-blend-mode: normal !important;
+}
+
+/* Hover effect - preserve transform but ensure no color changes */
 .logo-link:hover .logo {
   transform: translateY(-1px);
+  filter: none !important;
+  -webkit-filter: none !important;
+  opacity: 1 !important;
+  mix-blend-mode: normal !important;
+}
+
+/* Override any global image rules that might affect navbar logo */
+.navbar a img,
+.navbar .navbar-logo a img,
+.navbar .logo-link img,
+.navbar .logo-link,
+.navbar .navbar-logo .logo-link {
+  filter: none !important;
+  -webkit-filter: none !important;
+  opacity: 1 !important;
+  mix-blend-mode: normal !important;
 }
 
 /* Desktop Navigation - Balanced Spacing */
@@ -270,18 +312,20 @@
   top: 70px;
   left: 0;
   right: 0;
+  width: 100vw; /* Full viewport width */
   background: rgba(44, 87, 119, 0.98);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   transform: translateY(-100%);
   opacity: 0;
   visibility: hidden;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 0 20px 60px rgba(44, 87, 119, 0.3);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   padding: 2rem 1.5rem;
   max-height: calc(100vh - 70px);
   overflow-y: auto;
+  z-index: 49; /* Ensure it's below navbar but above content */
 }
 
 .navbar.scrolled .navbar-mobile {
@@ -373,43 +417,87 @@
 
 /* Mobile Responsiveness */
 @media screen and (max-width: 768px) {
+  .navbar {
+    background: rgba(44, 87, 119, 0.95); /* Theme blue for mobile initial state */
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    position: fixed !important; /* Ensure navbar stays fixed */
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    z-index: 50 !important; /* Ensure navbar is above all content */
+  }
+  
+  .navbar.scrolled {
+    background: rgba(255, 255, 255, 0.98); /* White background when scrolled on mobile */
+    border-bottom: 1px solid rgba(44, 87, 119, 0.08);
+  }
+  
   .navbar-container {
-    height: 60px;
-    padding: 0 1rem;
+    height: 60px !important;
+    padding: 0 1rem !important; /* Consistent padding */
+    justify-content: space-between !important; /* Ensure proper spacing */
+    display: flex !important;
+    align-items: center !important;
+    max-width: 1280px !important;
+    margin: 0 auto !important;
+  }
+  
+  .navbar-logo {
+    flex-shrink: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
   }
   
   .navbar-logo .logo {
-    width: 40px;
+    width: 40px !important;
   }
   
   .navbar-menu {
-    display: none;
+    display: none !important;
   }
   
   .navbar-actions {
-    display: none;
+    display: none !important;
   }
   
   .navbar-toggle {
-    display: flex;
+    display: flex !important;
+    flex-shrink: 0 !important; /* Prevent hamburger from moving */
+    flex-direction: column !important;
+    cursor: pointer !important;
+    padding: 0.5rem !important;
+    border-radius: 8px !important;
+    transition: all 0.3s ease !important;
   }
   
   .navbar-mobile {
-    top: 60px;
-    max-height: calc(100vh - 60px);
+    top: 60px !important;
+    max-height: calc(100vh - 60px) !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100vw !important;
+    padding: 1.5rem 1rem !important; /* Adjusted padding for mobile */
   }
 }
 
 @media screen and (max-width: 480px) {
   .navbar-container {
-    padding: 0 0.75rem;
+    padding: 0 0.75rem !important;
+    height: 60px !important; /* Consistent height */
   }
   
   .navbar-logo .logo {
-    width: 35px;
+    width: 35px !important;
   }
   
   .navbar-mobile {
-    padding: 1.5rem 1rem;
+    top: 60px !important;
+    max-height: calc(100vh - 60px) !important;
+    padding: 1.25rem 0.75rem !important; /* Adjusted for smaller screens */
   }
 }

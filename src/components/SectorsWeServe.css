@@ -99,30 +99,29 @@
   }
 }
 
-/* Mobile Horizontal Scroll */
-.mobileScroll {
-  display: block;
-  overflow-x: auto;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+/* Mobile 2x4 Grid */
+.mobileGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 0.75rem;
   width: 100%;
-  z-index: 2;
-  padding: 1rem;
+  max-width: 24rem;
+  margin: 0.5rem auto;
+  padding: 0.25rem;
 }
 
 @media (min-width: 768px) {
-  .mobileScroll {
+  .mobileGrid {
     display: none;
   }
 }
 
-.mobileScrollContent {
-  display: flex;
-  gap: 1rem;
-  min-width: max-content;
-  align-items: center;
+/* Hide line on mobile */
+@media (max-width: 767px) {
+  .lineContainer {
+    display: none;
+  }
 }
 
 /* Icon Column */

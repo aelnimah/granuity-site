@@ -210,38 +210,36 @@ const SectorsWeServe = () => {
             })}
           </div>
 
-          {/* Mobile Horizontal Scroll */}
-          <div className="mobileScroll">
-            <div className="mobileScrollContent">
-              {SECTORS.map((sector, index) => {
-                const IconComponent = ICON_MAP[sector.icon];
-                const isActive = activeIndex === index;
-                
-                return (
-                  <motion.div 
-                    key={sector.id} 
-                    className="mobileIconColumn"
-                    initial={{ opacity: 0, scale: 0.8, y: 20 }}
-                    animate={isInView ? { opacity: 1, scale: 1, y: 0 } : { opacity: 0, scale: 0.8, y: 20 }}
-                    transition={{ 
-                      duration: 0.5,
-                      ease: "easeOut",
-                      delay: 0.5 + (index * 0.1)
-                    }}
+          {/* Mobile 2x4 Grid */}
+          <div className="mobileGrid">
+            {SECTORS.map((sector, index) => {
+              const IconComponent = ICON_MAP[sector.icon];
+              const isActive = activeIndex === index;
+              
+              return (
+                <motion.div 
+                  key={sector.id} 
+                  className="mobileIconColumn"
+                  initial={{ opacity: 0, scale: 0.8, y: 20 }}
+                  animate={isInView ? { opacity: 1, scale: 1, y: 0 } : { opacity: 0, scale: 0.8, y: 20 }}
+                  transition={{ 
+                    duration: 0.5,
+                    ease: "easeOut",
+                    delay: 0.5 + (index * 0.1)
+                  }}
+                >
+                  <button
+                    id={`sector-${sector.id}`}
+                    className={`mobileIconButton ${isActive ? 'active' : ''}`}
+                    onClick={() => handleSectorClick(index)}
+                    aria-selected={isActive}
+                    aria-describedby={`sector-info-${sector.id}`}
                   >
-                    <button
-                      id={`sector-${sector.id}`}
-                      className={`mobileIconButton ${isActive ? 'active' : ''}`}
-                      onClick={() => handleSectorClick(index)}
-                      aria-selected={isActive}
-                      aria-describedby={`sector-info-${sector.id}`}
-                    >
-                      <IconComponent size={20} />
-                    </button>
-                  </motion.div>
-                );
-              })}
-            </div>
+                    <IconComponent size={20} />
+                  </button>
+                </motion.div>
+              );
+            })}
           </div>
         </div>
 

@@ -14,28 +14,28 @@ const CoreServicesTabs = () => {
       title: 'Grant Writing & Funding Acquisition',
       icon: FileText,
       description: 'We specialize in crafting compelling grant applications that maximize your funding opportunities. Our expert team researches, writes, and submits applications across federal, state, and local government programs, ensuring your project receives the attention it deserves.',
-      image: '/media/services/gwfa.jpg'
+      image: '/media/services/gwfa.png'
     },
     {
       id: 'strategic-advisory',
       title: 'Strategic Advisory',
       icon: Target,
       description: 'Our strategic advisory services provide expert guidance to align your projects with funding priorities and government initiatives. We help you develop comprehensive strategies that position your organization for success in competitive funding environments.',
-      image: '/media/services/sa.jpg'
+      image: '/media/services/sa.png'
     },
     {
       id: 'project-management',
       title: 'Project Management',
       icon: Calendar,
       description: 'From initial planning through final compliance reporting, we ensure seamless execution of your funded projects. Our project management expertise keeps your initiatives on track, on budget, and in full compliance with funding requirements.',
-      image: '/media/services/pm.jpg'
+      image: '/media/services/pm.png'
     },
     {
       id: 'business-development',
       title: 'Business Development',
       icon: TrendingUp,
       description: 'We support your organization\'s growth through strategic funding strategies and partnership development. Our business development services help you identify opportunities, build relationships, and create sustainable pathways for expansion and innovation.',
-      image: '/media/services/bd.jpg'
+      image: '/media/services/bd.png'
     }
   ];
 

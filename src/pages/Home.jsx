@@ -62,11 +62,13 @@ const Home = () => {
   const [videoError, setVideoError] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const [stepsVisible, setStepsVisible] = useState([false, false, false]);
   const statsRef = useRef(null);
   const sliderRef = useRef(null);
   const videoRef = useRef(null);
   const carouselRef = useRef(null);
   const autoPlayRef = useRef(null);
+  const stepsRef = useRef(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -140,6 +142,40 @@ const Home = () => {
 
     return () => {
       animatedElements.forEach(el => observer.unobserve(el));
+    };
+  }, []);
+
+  // Progressive steps animation
+  useEffect(() => {
+    if (!stepsRef.current) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          // Animate steps progressively with delays
+          const delays = [0, 800, 1600]; // 0.8s between each step
+          
+          delays.forEach((delay, index) => {
+            setTimeout(() => {
+              setStepsVisible(prev => {
+                const newState = [...prev];
+                newState[index] = true;
+                return newState;
+              });
+            }, delay);
+          });
+        }
+      },
+      { 
+        threshold: 0.3,
+        rootMargin: '0px 0px -100px 0px'
+      }
+    );
+
+    observer.observe(stepsRef.current);
+
+    return () => {
+      observer.disconnect();
     };
   }, []);
 
@@ -477,13 +513,13 @@ const Home = () => {
       {/* Client Success Stories Section */}
       <section className="success-stories-section">
         <div className="success-stories-container">
-          <div className="success-stories-header">
+          <div className="success-stories-header fade-up">
             <h2 className="success-stories-title">Client Success Stories</h2>
             <p className="success-stories-subtitle">Real results from businesses we've helped secure funding</p>
           </div>
           
           <div 
-            className="success-stories-carousel"
+            className="success-stories-carousel slide-in-left"
             onMouseEnter={handleCarouselMouseEnter}
             onMouseLeave={handleCarouselMouseLeave}
           >
@@ -500,8 +536,8 @@ const Home = () => {
             
             <div className="carousel-container" ref={carouselRef}>
               <div className="carousel-track" style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
-                {successStories.map((story) => (
-                  <div key={story.id} className="success-story-slide">
+                {successStories.map((story, index) => (
+                  <div key={story.id} className={`success-story-slide scale-in stagger-${index + 1}`}>
                     <div className="story-header">
                       <a 
                         href={story.website} 
@@ -550,19 +586,8 @@ const Home = () => {
             </button>
           </div>
           
-          {/* Slide Indicators */}
-          <div className="carousel-indicators">
-            {successStories.map((_, index) => (
-              <button
-                key={index}
-                className={`indicator ${index === currentSlide ? 'active' : ''}`}
-                onClick={() => goToSlide(index)}
-                aria-label={`Go to slide ${index + 1}`}
-              />
-            ))}
-          </div>
           
-          <div className="success-stories-footer">
+          <div className="success-stories-footer fade-up">
             <a href="/blog" className="read-more-btn">Read More Success Stories</a>
           </div>
         </div>
@@ -579,10 +604,10 @@ const Home = () => {
           </div>
 
           {/* Pipeline Steps */}
-          <div className="pipeline-steps">
-            <div className="pipeline-line"></div>
+          <div className="pipeline-steps" ref={stepsRef}>
+            <div className={`pipeline-line ${stepsVisible[0] ? 'animate-line' : ''}`}></div>
             
-            <div className="step">
+            <div className={`step ${stepsVisible[0] ? 'animate-step' : ''}`}>
               <div className="step-icon">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M4 4H20C21.1 4 22 4.9 22 6V18C22 19.1 21.1 20 20 20H4C2.9 20 2 19.1 2 18V6C2 4.9 2.9 4 4 4Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -593,7 +618,7 @@ const Home = () => {
               <p className="step-description">Tell us about your project and funding goals</p>
             </div>
 
-            <div className="step">
+            <div className={`step ${stepsVisible[1] ? 'animate-step' : ''}`}>
               <div className="step-icon">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M19.07 4.93C17.22 3.08 14.76 2 12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 9.24 20.92 6.78 19.07 4.93Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -604,7 +629,7 @@ const Home = () => {
               <p className="step-description">We analyze your needs and create a funding plan</p>
             </div>
 
-            <div className="step">
+            <div className={`step ${stepsVisible[2] ? 'animate-step' : ''}`}>
               <div className="step-icon">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>

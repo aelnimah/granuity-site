@@ -12,6 +12,8 @@ import Blog from './pages/Blog';
 import BlogPost from './pages/BlogPost';
 import Contact from './pages/Contact';
 import Portal from './pages/Portal';
+import Terms from './pages/Terms';
+import Privacy from './pages/Privacy';
 
 function AppRoutes() {
   const location = useLocation();
@@ -50,6 +52,16 @@ function AppRoutes() {
             <Route path="/portal" element={
               <PageWrapper>
                 <Portal />
+              </PageWrapper>
+            } />
+            <Route path="/terms" element={
+              <PageWrapper>
+                <Terms />
+              </PageWrapper>
+            } />
+            <Route path="/privacy" element={
+              <PageWrapper>
+                <Privacy />
               </PageWrapper>
             } />
           </Routes>

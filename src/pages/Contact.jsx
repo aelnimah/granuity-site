@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { Mail, Phone, MapPin, Linkedin } from 'lucide-react';
+import { Mail, Phone, MapPin, Linkedin, Copy, ExternalLink } from 'lucide-react';
 import './Contact.css';
 import { submitToNetlify, createSuccessMessage, createErrorMessage, replaceFormWithMessage } from '../utils/formSubmission';
 import '../utils/formSubmission.css';
@@ -19,6 +19,8 @@ const Contact = () => {
     revenue: '',
     message: ''
   });
+  
+  const [showEmailModal, setShowEmailModal] = useState(false);
 
   const heroRef = useRef(null);
   const formRef = useRef(null);
@@ -34,7 +36,7 @@ const Contact = () => {
       icon: Mail,
       title: 'Email',
       content: 'contact@grantuity.org',
-      link: 'mailto:contact@grantuity.org'
+      link: 'mailto:contact@grantuity.org?subject=Inquiry from Grantuity Website'
     },
     {
       icon: Phone,
@@ -52,6 +54,7 @@ const Contact = () => {
       icon: MapPin,
       title: 'Address',
       content: 'First Canadian Place\n100 King Street West Suite 5600\nToronto, ON, M5X 1C9',
+      appointmentNote: 'By appointment only',
       link: 'https://www.google.com/maps/place/100+King+St+W+%235600,+Toronto,+ON+M5X+1C9/@43.648835,-79.381774,15z/data=!4m6!3m5!1s0x882b34d29f5481fb:0x23f1edc5b66bd99!8m2!3d43.6488349!4d-79.3817742!16s%2Fg%2F11pvcvf2vp?hl=en&entry=ttu&g_ep=EgoyMDI1MDkxNy4wIKXMDSoASAFQAw%3D%3D'
     }
   ];
@@ -69,6 +72,31 @@ const Contact = () => {
       () => replaceFormWithMessage(e.target, createSuccessMessage()),
       () => replaceFormWithMessage(e.target, createErrorMessage())
     );
+  };
+
+  const handleEmailClick = (e) => {
+    e.preventDefault();
+    setShowEmailModal(true);
+  };
+
+  const copyEmail = () => {
+    navigator.clipboard.writeText('contact@grantuity.org');
+    alert('Email copied to clipboard!');
+    setShowEmailModal(false);
+  };
+
+  const openGmail = () => {
+    const email = 'contact@grantuity.org';
+    const subject = 'Inquiry from Grantuity Website';
+    window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${encodeURIComponent(subject)}`, '_blank');
+    setShowEmailModal(false);
+  };
+
+  const openOutlook = () => {
+    const email = 'contact@grantuity.org';
+    const subject = 'Inquiry from Grantuity Website';
+    window.open(`https://outlook.live.com/mail/0/deeplink/compose?to=${email}&subject=${encodeURIComponent(subject)}`, '_blank');
+    setShowEmailModal(false);
   };
 
   // Animation variants
@@ -166,6 +194,7 @@ const Contact = () => {
                       }}
                       target={info.link.startsWith('http') ? '_blank' : '_self'}
                       rel={info.link.startsWith('http') ? 'noopener noreferrer' : ''}
+                      onClick={info.link.startsWith('mailto:') ? handleEmailClick : undefined}
                     >
                       <div className="contact-info-icon">
                         <IconComponent size={24} />
@@ -173,6 +202,9 @@ const Contact = () => {
                       <div className="contact-info-content">
                         <h3 className="contact-info-label">{info.title}</h3>
                         <p className="contact-info-value">{info.content}</p>
+                        {info.appointmentNote && (
+                          <div className="appointment-note">{info.appointmentNote}</div>
+                        )}
                       </div>
                     </motion.a>
                   );
@@ -326,7 +358,7 @@ const Contact = () => {
                     initial="hidden"
                     animate={isFormInView ? "visible" : "hidden"}
                   >
-                    <motion.div className="form-group" variants={formFieldVariants}>
+                    <motion.div className="form-group industry-group" variants={formFieldVariants}>
                       <label htmlFor="industry">Industry</label>
                       <select
                         id="industry"
@@ -335,22 +367,75 @@ const Contact = () => {
                         onChange={handleInputChange}
                       >
                         <option value="">Select Industry</option>
-                        <option value="Manufacturing">Manufacturing</option>
-                        <option value="Technology">Technology</option>
-                        <option value="Healthcare">Healthcare</option>
+                        <option value="Manufacturing & Supply Chain Resilience">Manufacturing & Supply Chain Resilience</option>
+                        <option value="Healthcare & Biotechnology">Healthcare & Biotechnology</option>
                         <option value="Construction">Construction</option>
-                        <option value="Clean Energy">Clean Energy</option>
-                        <option value="Defense">Defense</option>
+                        <option value="Clean Energy & Climate Transition">Clean Energy & Climate Transition</option>
+                        <option value="Defense & Aerospace">Defense & Aerospace</option>
+                        <option value="Critical Minerals & Resource Security">Critical Minerals & Resource Security</option>
+                        <option value="Digital Infrastructure & Emerging Tech">Digital Infrastructure & Emerging Tech</option>
+                        <option value="General Workforce & Site Expansion">General Workforce & Site Expansion</option>
                         <option value="Other">Other</option>
                       </select>
                     </motion.div>
-                    <motion.div className="form-group" variants={formFieldVariants}>
+                    <motion.div className="form-group revenue-group" variants={formFieldVariants}>
                       <label htmlFor="revenue">Company Annual Revenue</label>
+                      
+                      {/* Desktop Revenue Slider */}
+                      <div className="revenue-slider desktop-revenue-slider">
+                        <div className="revenue-track">
+                          <div className="revenue-dots">
+                            <button 
+                              type="button"
+                              className={`revenue-dot ${formData.revenue === 'Under $1M' ? 'active' : ''}`}
+                              onClick={() => handleInputChange({ target: { name: 'revenue', value: 'Under $1M' } })}
+                              data-value="Under $1M"
+                            >
+                              <span className="dot-label">Under $1M</span>
+                            </button>
+                            <button 
+                              type="button"
+                              className={`revenue-dot ${formData.revenue === '$1M - $5M' ? 'active' : ''}`}
+                              onClick={() => handleInputChange({ target: { name: 'revenue', value: '$1M - $5M' } })}
+                              data-value="$1M - $5M"
+                            >
+                              <span className="dot-label">$1M - $5M</span>
+                            </button>
+                            <button 
+                              type="button"
+                              className={`revenue-dot ${formData.revenue === '$5M - $25M' ? 'active' : ''}`}
+                              onClick={() => handleInputChange({ target: { name: 'revenue', value: '$5M - $25M' } })}
+                              data-value="$5M - $25M"
+                            >
+                              <span className="dot-label">$5M - $25M</span>
+                            </button>
+                            <button 
+                              type="button"
+                              className={`revenue-dot ${formData.revenue === '$25M - $100M' ? 'active' : ''}`}
+                              onClick={() => handleInputChange({ target: { name: 'revenue', value: '$25M - $100M' } })}
+                              data-value="$25M - $100M"
+                            >
+                              <span className="dot-label">$25M - $100M</span>
+                            </button>
+                            <button 
+                              type="button"
+                              className={`revenue-dot ${formData.revenue === 'Over $100M' ? 'active' : ''}`}
+                              onClick={() => handleInputChange({ target: { name: 'revenue', value: 'Over $100M' } })}
+                              data-value="Over $100M"
+                            >
+                              <span className="dot-label">Over $100M</span>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Mobile Revenue Dropdown */}
                       <select
-                        id="revenue"
+                        id="revenue-mobile"
                         name="revenue"
                         value={formData.revenue}
                         onChange={handleInputChange}
+                        className="mobile-revenue-dropdown"
                       >
                         <option value="">Select Revenue Range</option>
                         <option value="Under $1M">Under $1M</option>
@@ -410,7 +495,7 @@ const Contact = () => {
         <div className="contact-container">
           <div className="map-container">
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2886.260439428824!2d-79.38177738450266!3d43.64883489791216!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x882b34d29f5481fb%3A0x23f1edc5b66bd99!2s100%20King%20St%20W%20%235600%2C%20Toronto%2C%20ON%20M5X%201C9%2C%20Canada!5e0!3m2!1sen!2sca!4v1732226400000!5m2!1sen!2sca"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2886.260439428824!2d-79.38177738450266!3d43.64883489791216!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x41027d976a9d6bad%3A0x10cac60e8a81831d!2sGrantuity+Group!5e0!3m2!1sen!2sca!4v1732226400000!5m2!1sen!2sca"
               width="100%"
               height="400"
               style={{ border: 0 }}
@@ -422,6 +507,55 @@ const Contact = () => {
           </div>
         </div>
       </motion.section>
+
+      {/* Email Options Modal */}
+      {showEmailModal && (
+        <div className="email-modal-overlay" onClick={() => setShowEmailModal(false)}>
+          <div className="email-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="email-modal-header">
+              <h3>Choose how to contact us</h3>
+              <button 
+                className="email-modal-close" 
+                onClick={() => setShowEmailModal(false)}
+              >
+                ×
+              </button>
+            </div>
+            
+            <div className="email-modal-content">
+              <p className="email-modal-description">
+                We'd love to hear from you! Choose your preferred way to send us an email:
+              </p>
+              
+              <div className="email-options">
+                <button className="email-option" onClick={copyEmail}>
+                  <Copy size={20} />
+                  <div>
+                    <strong>Copy Email Address</strong>
+                    <span>Copy contact@grantuity.org to your clipboard</span>
+                  </div>
+                </button>
+                
+                <button className="email-option" onClick={openGmail}>
+                  <ExternalLink size={20} />
+                  <div>
+                    <strong>Open Gmail</strong>
+                    <span>Compose email in Gmail web app</span>
+                  </div>
+                </button>
+                
+                <button className="email-option" onClick={openOutlook}>
+                  <ExternalLink size={20} />
+                  <div>
+                    <strong>Open Outlook</strong>
+                    <span>Compose email in Outlook web app</span>
+                  </div>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

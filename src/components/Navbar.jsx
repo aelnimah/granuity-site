@@ -8,7 +8,9 @@ const Navbar = () => {
   const location = useLocation();
   
   // Check if we're on a page that should always have solid navbar
-  const isAlwaysSolidPage = location.pathname.startsWith('/blog');
+  const isAlwaysSolidPage = location.pathname.startsWith('/blog') || 
+                           location.pathname === '/terms' || 
+                           location.pathname === '/privacy';
 
   useEffect(() => {
     const handleScroll = () => {
@@ -40,7 +42,7 @@ const Navbar = () => {
   return (
     <nav className={`navbar ${isScrolled || isAlwaysSolidPage ? 'scrolled' : ''}`}>
       <div className="navbar-container">
-        {/* Logo - Flush Left */}
+        {/* Logo - Left Side */}
         <div className="navbar-logo">
           <Link to="/" className="logo-link" onClick={handleHomeClick}>
             <img 
@@ -51,7 +53,7 @@ const Navbar = () => {
           </Link>
         </div>
 
-        {/* Desktop Navigation - Center with Portal Button */}
+        {/* Desktop Navigation - Right Side */}
         <div className="navbar-menu">
           <ul className="navbar-nav">
             <li className="nav-item">
@@ -66,10 +68,8 @@ const Navbar = () => {
             <li className="nav-item">
               <Link to="/contact" className="nav-link" onClick={handleNavClick}>Contact Us</Link>
             </li>
-            <li className="nav-item">
-              <Link to="/portal" className="portal-button" onClick={handleNavClick}>Portal</Link>
-            </li>
           </ul>
+          <Link to="/portal" className="portal-button" onClick={handleNavClick}>Portal</Link>
         </div>
 
         {/* Mobile Menu Toggle */}
